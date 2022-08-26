@@ -1,6 +1,5 @@
 - 👋 Hi, I’m @ebpitman
 - 👀 I’m a professor at the University at Buffalo
-- 🌱 pitman@buffalo.edu
 
 <!---
 ebpitman/ebpitman is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
