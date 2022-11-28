@@ -1,1 +1,48 @@
+> library(readr)
+> AvgNILFull <- read_csv("Desktop/Conferences/2023SloanMITSports/AvgNILFull.csv")
+> library(BMS)
+> NILFullData<-as.matrix(AvgNILFull)
+> fitFullNIL<-bms(NILFullData,mprior="uniform",g="UIP",nmodel=10)
+> image(fitNullNIL)
 
+> NILFrame<-as.data.frame(NILFullData)
+> NILFrameData<-NILFrame[,c(1,2,3,4,7,9,10,11)]
+> head(NILFrameData)
+> NILFit<-lm(AvgNIL~.,data=NILFrameData)
+> summary(NILFit)
+> boxplot(NILFit[['residuals']],main='Boxplot:Residuals',ylab='residual value')
+
+> NILSlim<-lm(AvgNIL~NILFrameData[,2]+NILFrameData[,5],data=NILFrameData)
+> summary(NILSlim)
+> boxplot(NILSlim[['residuals']],main='Boxplot:Residuals',ylab='residual value')
+> NILSlim<-lm(AvgNIL~NILFrameData[,2]+NILFrameData[,8],data=NILFrameData)
+> summary(NILSlim)
+> boxplot(NILSlim[['residuals']],main='Boxplot:Residuals',ylab='residual value')
+> NILSlim2<-lm(AvgNIL~NILFrameData[,2]+NILFrameData[,6],data=NILFrameData)
+> summary(NILSlim2)
+
+> install.packages("RobustGaSP")
+> library(RobustGaSP)
+> nilout=NILFrame[,1]
+> nilin<-NILFrame[,-1]
+> nilgasp<-rgasp(design=nilin,response=nilout) 
+> niluseless<-findInertInputs(nilgasp)
+> nilloo<-leave_one_out_rgasp(nilgasp)
+> summary(nilloo)
+> nilloomean<-nilloo$mean
+> nilloosd<-nilloo$sd
+> looav<-(nilloomean - nilout)/nilloosd
+> looav
+
+> sociallm<-lm(socialdata3[1:61,2]~socialdata3[1:61,3]+socialdata3[1:61,4],data=socialdata3)
+> summary(sociallm)
+> socialdesign<-socialdata3[1:60,3:4]
+> socialresponse<-socialdata3[1:60,2]
+> socialgp3<-rgasp(design=socialdesign,response=socialresponse)
+> testdesign<-socialdata3[61,3:4]
+> socialpred<-predict(socialgp3,testdesign)
+> socialpred$mean
+> socialgp3
+> sociallm<-lm(socialdata3[1:61,2]~socialdata3[1:61,3]+socialdata3[1:61,4],data=socialdata3)
+> summary(sociallm)
+ 
